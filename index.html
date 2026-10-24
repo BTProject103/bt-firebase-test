@@ -2,24 +2,29 @@
 <html>
 <body>
 
-<h1>GITHUB TEST</h1>
+<h1>FIREBASE TEST</h1>
 
 <div id="result">
 LOADING...
 </div>
 
-<script
-src="https://code.jquery.com/jquery-3.7.1.min.js">
-</script>
+<script type="module">
 
-<script>
+try {
 
-if(window.jQuery){
-    document.getElementById("result").innerHTML =
-    "JQUERY FOUND";
-}else{
-    document.getElementById("result").innerHTML =
-    "JQUERY NOT FOUND";
+const mod = await import(
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"
+);
+
+document.getElementById("result").innerHTML =
+"FIREBASE IMPORT OK";
+
+}
+catch(e){
+
+document.getElementById("result").innerHTML =
+"ERROR : " + e;
+
 }
 
 </script>
