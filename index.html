@@ -166,6 +166,758 @@ let playerId = "";
 
 const app = initializeApp(firebaseConfig);
 
+
+
+const db = getFirestore(app);
+
+
+
+let roomId = "";
+let roomRef;
+let lastCalledCell = null;
+let opponentJoined = false;
+let myTurn = true;
+let gameEnded = false;
+
+const board = document.getElementById("board");
+const resetBtn = document.getElementById("resetBtn");
+
+let states = [];
+let cells = [];
+let pendingIndex = null;
+let pendingTimer = null;
+let pressTimer = null;
+let resetTimer = null;
+
+
+
+for(let i=0;i<25;i++){
+    states.push(0);
+
+    const cell = document.createElement("div");
+    cell.className = "cell";
+
+    cell.onclick = function(){
+        handleTap(i);
+    };
+
+    
+
+    cells.push(cell);
+    board.appendChild(cell);
+}
+
+function handleTap(index){
+
+     if(!myTurn){
+        return;
+    }
+
+    if(states[index] === 3 || states[index] === 4){
+        return;
+    }
+
+    if(pendingIndex !== null){
+
+        clearTimeout(pendingTimer);
+
+        if(pendingIndex !== index){
+
+            states[pendingIndex] = 0;
+            updateCell(pendingIndex);
+        }
+    }
+
+    if(states[index] === 0){
+
+    states[index] = 2;
+
+}else if(states[index] === 2){
+
+    states[index] = 0;
+    updateCell(index);
+    pendingIndex = null;
+    return;
+}
+
+
+    updateCell(index);
+
+    pendingIndex = index;
+
+    pendingTimer = setTimeout(()=>{
+
+        confirmCell(index);
+
+    },2000);
+}
+
+async function confirmCell(index){
+
+   if(states[index] === 2){
+
+    states[index] = 4;
+
+}
+
+    await updateDoc(roomRef,{
+        lastCall:Number(cells[index].innerText),
+
+   sender:playerId
+    });
+
+    myTurn = false;
+
+    updateCell(index);
+
+if(lastCalledCell){
+    lastCalledCell.style.border = "2px solid #444";
+}
+
+
+
+cells[index].style.border = "5px solid yellow";
+
+lastCalledCell = cells[index];
+
+
+pendingIndex = null;
+}
+
+function updateCell(index){
+
+    const cell = cells[index];
+
+    cell.className = "cell";
+
+    switch(states[index]){
+
+        
+        case 2:
+            cell.classList.add("self-pending");
+            break;
+
+        case 3:
+            cell.classList.add("enemy");
+            break;
+
+        case 4:
+            cell.classList.add("self");
+            break;
+    }
+  
+ }
+function generateRandomBoard(){
+
+    let numbers = [];
+
+    for(let i=1;i<=25;i++){
+        numbers.push(i);
+    }
+
+    for(let i=numbers.length-1;i>0;i--){
+        const j =
+        Math.floor(Math.random()*(i+1));
+
+        [numbers[i], numbers[j]]
+        =
+        [numbers[j], numbers[i]];
+    }
+
+    for(let i=0;i<25;i++){
+
+        cells[i].innerText = numbers[i];
+        cells[i].id = "cell" + numbers[i];
+
+        states[i] = 0;
+
+        // ←ここ追加
+        cells[i].style.border = "2px solid #444";
+
+        updateCell(i);
+    }
+}
+
+function resetBoard(){
+
+    // 黄色枠解除
+　　
+    if(lastCalledCell){
+        lastCalledCell.style.border = "2px solid #444";
+        lastCalledCell = null;
+    }
+
+    generateRandomBoard();
+
+    if(roomRef){
+        updateDoc(roomRef,{
+          winner:"",
+          lastCall:0,
+          sender:""
+           
+        });
+    }
+
+    document.querySelector(".title").innerText =
+    "BT MOBILE Ver4.03";
+
+    document.getElementById("resultMessage").innerText = "";
+}
+
+function checkBingo(type){
+
+    const lines = [
+
+        // 横
+        [0,1,2,3,4],
+        [5,6,7,8,9],
+        [10,11,12,13,14],
+        [15,16,17,18,19],
+        [20,21,22,23,24],
+
+        // 縦
+        [0,5,10,15,20],
+        [1,6,11,16,21],
+        [2,7,12,17,22],
+        [3,8,13,18,23],
+        [4,9,14,19,24],
+
+        // 斜め
+        [0,6,12,18,24],
+        [4,8,12,16,20]
+    ];
+
+    let completedLines = 0;
+
+    for(const line of lines){
+
+        let bingo = true;
+
+        for(const index of line){
+
+            if(states[index] !== type){
+
+                bingo = false;
+                break;
+            }
+        }
+
+        if(bingo){
+            completedLines++;
+        }
+    }
+
+    return completedLines;
+}
+
+function startReset(){
+
+    resetTimer = setTimeout(()=>{
+
+        resetBoard();
+
+    },1500);
+}
+
+function stopReset(){
+
+    clearTimeout(resetTimer);
+}
+
+resetBtn.addEventListener("mousedown",startReset);
+resetBtn.addEventListener("mouseup",stopReset);
+resetBtn.addEventListener("mouseleave",stopReset);
+
+resetBtn.addEventListener("touchstart",startReset);
+resetBtn.addEventListener("touchend",stopReset);
+
+generateRandomBoard();
+
+function startRoomListener(){
+
+
+onSnapshot(roomRef,async (docSnap) => {
+
+
+const data = docSnap.data();
+
+if(!data){
+return;
+}
+
+
+const winner = data.winner;
+
+console.log(
+    "playerId=", playerId,
+    "winner=", winner
+);
+
+console.log("winner=", winner);
+console.log("playerId=", playerId);
+
+if(winner === "DRAW"){
+
+    const result =
+    document.getElementById("resultMessage");
+
+    result.innerText = "DRAW";
+
+    result.style.color = "#00BFFF";
+    result.style.fontSize = "140px";
+    result.style.fontWeight = "bold";
+    result.style.webkitTextStroke = "2px black";
+
+    gameEnded = true;
+
+    return;
+}
+
+if(
+    winner &&
+    winner !== playerId
+){
+
+    console.log("LOSE条件成立");
+    console.log("winner=", winner);
+    console.log("playerId=", playerId);
+
+    gameEnded = true;
+
+    const result =
+    document.getElementById("resultMessage");
+
+    result.innerText = "YOU LOSE";
+    result.style.color = "#A020F0";
+
+    return;
+}
+
+
+
+const callNumber = data.lastCall;
+const sender = data.sender;
+
+if(sender === playerId){
+return;
+}
+
+if(!callNumber){
+return;
+}
+
+const target =
+document.getElementById(
+"cell" + callNumber
+);
+
+if(!target){
+
+    alert("cell取得失敗");
+
+    return;
+}
+
+for(let i=0;i<25;i++){
+
+if(cells[i].id === "cell" + callNumber){
+
+    console.log(
+        "変更前",
+        i,
+        states[i]
+    );
+
+    states[i] = 3;
+
+    console.log(
+        "変更後",
+        i,
+        states[i]
+    );
+
+    updateCell(i);
+
+console.log(states);
+
+const enemyLines = checkBingo(3);
+
+let unused = 0;
+
+for(let j=0;j<25;j++){
+
+    if(states[j] === 0){
+        unused++;
+    }
+
+}
+
+console.log(
+    "enemyLines=",
+    enemyLines,
+    "unused=",
+    unused
+
+);
+
+if(enemyLines > 0 ){
+
+    const result =
+    document.getElementById("resultMessage");
+
+    // 相手BINGO時
+
+    result.innerText = "BINGO!!";
+
+    result.style.color = "#FFD700";
+    result.style.fontSize = "140px";
+    result.style.fontWeight = "bold";
+    result.style.webkitTextStroke = "2px black";
+
+    result.style.textShadow =
+    "0 0 5px #FFD700, 0 0 10px #FFD700, 0 0 20px #FFD700";
+
+    result.style.position = "absolute";
+    result.style.top = "30%";
+    result.style.left = "50%";
+    result.style.transform = "translate(-50%, -50%)";
+
+    result.classList.add("bingoFlash");
+
+    setTimeout(()=>{
+
+        result.classList.remove("bingoFlash");
+
+        result.innerText = "YOU WIN";
+        result.style.color = "#00ff66";
+
+    },1500);
+
+    await updateDoc(roomRef,{
+    winner:playerId
+});
+
+console.log("winner送信",playerId);
+
+gameEnded = true;gameEnded = true;
+
+}
+else if(unused === 1){
+
+    const result =
+    document.getElementById("resultMessage");
+
+    result.innerText = "DRAW";
+
+    result.style.color = "#00BFFF";
+    result.style.fontSize = "140px";
+    result.style.fontWeight = "bold";
+    result.style.webkitTextStroke = "2px black";
+
+    result.style.textShadow =
+    "0 0 5px #00BFFF, 0 0 10px #00BFFF, 0 0 20px #00BFFF";
+
+    result.style.position = "absolute";
+    result.style.top = "30%";
+    result.style.left = "50%";
+    result.style.transform = "translate(-50%, -50%)";
+
+    result.classList.add("bingoFlash");
+
+    gameEnded = true;
+
+    await updateDoc(roomRef,{
+       winner:"DRAW"
+});
+
+    console.log("DRAW発生");
+
+
+}
+
+        if(lastCalledCell){
+            lastCalledCell.style.border = "2px solid #444";
+        }
+
+        cells[i].style.border = "5px solid yellow";
+
+        myTurn = true;
+
+        lastCalledCell = cells[i];
+
+        break;
+    }
+}
+
+});
+
+}
+window.createRoom = async function() {
+
+
+
+    
+    roomId =
+    Math.floor(
+        1000 + Math.random() * 9000
+    ).toString();
+
+
+    playerId = "A";
+
+    roomRef = doc(db, "rooms", roomId);
+    startRoomListener();
+
+   
+
+await setDoc(roomRef, {
+    host: "A",
+    playerCount: 1,
+    lastCall: 0,
+    sender: "",
+    winner: ""
+
+});
+
+onSnapshot(roomRef, (docSnap) => {
+
+    const data = docSnap.data();
+
+    if(!data){
+        return;
+    }
+
+    if(gameEnded){
+        return;
+    }
+
+    if(
+        data.playerCount === 2 &&
+        !opponentJoined
+    ){
+
+    opponentJoined = true;
+
+    alert("対戦相手が参加しました");
+
+    }
+
+});
+
+alert(
+    "ルーム番号 : " + roomId +
+    "\nあなたはAです"
+);
+
+ 
+}
+
+window.joinRoom = async function() {
+
+    roomId =
+    document.getElementById("roomInput").value;
+
+    roomRef = doc(db, "rooms", roomId);
+    startRoomListener();
+
+
+    const snap = await getDoc(roomRef);
+
+    if (snap.exists()) {
+
+    playerId = "B";
+
+    await updateDoc(roomRef, {
+        playerCount: 2
+    });
+
+
+    alert(
+        "ルーム発見\nあなたはBです"
+    );
+
+} else {
+
+    alert(
+        "ルームが存在しません"
+    );
+
+}
+
+};
+
+
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BT Mobile Ver4.03</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    text-align:center;
+    margin:0;
+    padding:10px;
+    background:#f5f5f5;
+}
+
+.title{
+    font-size:24px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+
+#board{
+    width:350px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(5,65px);
+    gap:5px;
+    justify-content:center;
+}
+
+.cell{
+    width:65px;
+    height:65px;
+    border:2px solid #444;
+    border-radius:8px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:white;
+    font-size:24px;
+    font-weight:bold;
+    cursor:pointer;
+    user-select:none;
+}
+
+.enemy{
+    background:#ff6666;
+    color:white;
+}
+
+.self{
+    background:#4d94ff;
+    color:white;
+}
+
+.enemy-pending{
+    background:#ffb3b3;
+    color:white;
+}
+
+.self-pending{
+    background:#b3d1ff;
+    color:white;
+}
+
+.reset-btn{
+    margin-top:20px;
+    margin-bottom:20px;
+    padding:12px 30px;
+    font-size:18px;
+    font-weight:bold;
+    border:none;
+    border-radius:10px;
+    background:#666;
+    color:white;
+    cursor:pointer;
+}
+
+.info{
+    margin:10px;
+    font-size:14px;
+    color:#666;
+
+}
+.order{
+    font-size:12px;
+    opacity:0.8;
+    margin-right:2px;
+}
+
+#resultMessage{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+
+    font-size:100px;
+    font-weight:bold;
+
+    color:gold;
+
+    text-shadow:
+    -3px -3px 0 #cc0000,
+     3px -3px 0 #cc0000,
+    -3px  3px 0 #cc0000,
+     3px  3px 0 #cc0000;
+
+    z-index:9999;
+    pointer-events:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="title">
+BT MOBILE Ver4.03
+</div>
+
+<div id="resultMessage"></div>
+
+<button onclick="createRoom()">
+ルーム作成
+</button>
+
+<input id="roomInput" placeholder="ルーム番号">
+
+<button onclick="joinRoom()">
+ルーム参加
+</button>
+
+<div id="board"></div>
+
+<button id="resetBtn" class="reset-btn">
+長押しリセット
+</button>
+
+<script type="module">
+
+import{ initializeApp }from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getFirestore,
+  doc,
+  onSnapshot,
+  getDoc,
+  updateDoc,
+  setDoc
+ 
+}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAfLxgAzWA8ozZOJJHRS795H4u5aBwXE9c",
+  authDomain: "bt-mobile-f126a.firebaseapp.com",
+  projectId: "bt-mobile-f126a",
+  storageBucket: "bt-mobile-f126a.firebasestorage.app",
+  messagingSenderId: "779653776766",
+  appId: "1:779653776766:web:230aac9341a4b9bc229f2f",
+  measurementId: "G-QTSHMQK53V"
+};
+
+let playerId = "";
+
+const app = initializeApp(firebaseConfig);
+
 alert("Firebase OK");
 
 const db = getFirestore(app);
