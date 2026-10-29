@@ -7,6 +7,17 @@
 
 <style>
 
+
+*{
+    -webkit-user-select:none;
+    user-select:none;
+    -webkit-touch-callout:none;
+}
+
+button{
+    touch-action:manipulation;
+}
+
 body{
     font-family:Arial,sans-serif;
     text-align:center;
@@ -20,7 +31,6 @@ body{
     font-weight:bold;
     margin-bottom:15px;
 }
-
 
 #board{
     width:350px;
@@ -45,6 +55,7 @@ body{
     cursor:pointer;
     user-select:none;
 }
+
 
 .enemy{
     background:#ff6666;
@@ -348,6 +359,9 @@ function resetBoard(){
     }
 
     generateRandomBoard();
+
+      myTurn = true;
+      gameEnded = false;
 
     if(roomRef){
         updateDoc(roomRef,{
