@@ -15,15 +15,22 @@ body{
     text-align:center;
 }
 
+#helpText{
+    font-size:20px;
+    line-height:1.6;
+}
+
 .screen{
     padding:20px;
 }
 
 .mainBtn{
-    width:260px;
-    padding:15px;
-    margin:10px;
-    font-size:20px;
+   .mainBtn{
+    width:220px;
+    padding:12px;
+    margin:8px;
+    font-size:18px;
+}
     border:none;
     border-radius:10px;
     cursor:pointer;
@@ -39,8 +46,8 @@ body{
 }
 
 .helpBtn{
-    width:55px;
-    height:55px;
+    width:48px;
+    height:48px;
 
     border:3px solid white;
     border-radius:50%;
@@ -48,7 +55,7 @@ body{
     background:#ff3333;
     color:white;
 
-    font-size:30px;
+    font-size:26px;
     font-weight:bold;
 
     cursor:pointer;
@@ -76,6 +83,11 @@ body{
 }
 
 .joinBtn{
+    background:#FF9800;
+    color:white;
+}
+
+.ruleBtn{
     background:#FF9800;
     color:white;
 }
@@ -327,6 +339,18 @@ onclick="showHelp('private')">
 ?
 
 </button>
+
+<div>
+
+<button
+class="mainBtn ruleBtn"
+onclick="showHelp('rule')">
+
+RULE
+
+</button>
+
+</div>
 
 </div>
 
@@ -735,23 +759,26 @@ document.getElementById("waitRoomNo").innerText=roomNo;
 
 if(isHost){
 
+/*
 document.getElementById("roleLabel").innerText=
 "YOU ARE HOST";
 
 document.getElementById("turnLabel").innerText=
 "FIRST PLAYER";
+*/
 
 document.getElementById("guestLabel").innerText=
 "Waiting...";
 
 }else{
 
+/*
 document.getElementById("roleLabel").innerText=
 "YOU ARE GUEST";
 
 document.getElementById("turnLabel").innerText=
 "SECOND PLAYER";
-
+*/
 document.getElementById("guestLabel").innerText=
 "Shoshi";
 
@@ -798,7 +825,10 @@ hostReset:false,
 guestReset:false,
 
 hostRematch:false,
-guestRematch:false
+guestRematch:false,
+
+hostNo:false,
+guestNo:false
 
 });
 
@@ -900,11 +930,12 @@ setTimeout(()=>{
 
 },1500);
 
-   
-
     if(!rematchTimer){
 
         rematchTimer = setTimeout(()=>{
+
+document.getElementById("yesBtn").innerText = "〇 YES";
+document.getElementById("yesBtn").disabled = false;
 
             document.getElementById(
                 "rematchBox"
@@ -1067,6 +1098,20 @@ isHost,
 gameEnded
 );
 
+if(
+    data.hostNo ||
+    data.guestNo
+){
+
+    alert(
+    "再戦不成立\n\nTOPメニューに戻ります"
+    );
+
+    showMenu();
+
+    return;
+}
+
 if(winner === "DRAW"){
 
     const result =
@@ -1100,25 +1145,28 @@ winner &&
 winner !== (isHost ? "HOST" : "GUEST")
 ){
 
-console.log(
-"LOSE受信詳細",
-winner,
-data.lastCall,
-data.currentTurn,
-data.hostReset,
-data.guestReset
-);
+    console.log(
+    "HOST LOSE BRANCH IN",
+    winner,
+    gameEnded
+    );
 
     if(!gameEnded){
 
         console.log(
-        "LOSE処理突入",
-        winner,
-        isHost,
-        gameEnded
+        "HOST LOSE EXECUTE"
         );
 
         gameEnded = true;
+
+        console.log(
+        "LOSE受信詳細",
+        winner,
+        data.lastCall,
+        data.currentTurn,
+        data.hostReset,
+        data.guestReset
+        );
 
         const result =
         document.getElementById(
@@ -1133,12 +1181,26 @@ data.guestReset
             rematchTimer = setTimeout(()=>{
 
                 console.log(
-                "REMATCH BOX OPEN",
-                Date.now()
+                    "REMATCH OPEN CHECK",
+                    document.getElementById("yesBtn").innerText,
+                    document.getElementById("yesBtn").disabled
+                );
+
+                console.log(
+                    "REMATCH BOX OPEN",
+                    Date.now()
                 );
 
                 document.getElementById(
-                "rematchBox"
+                    "yesBtn"
+                ).innerText = "〇 YES";
+
+                document.getElementById(
+                    "yesBtn"
+                ).disabled = false;
+
+                document.getElementById(
+                    "rematchBox"
                 ).style.display = "block";
 
                 rematchTimer = null;
@@ -1263,10 +1325,15 @@ console.log("RESET COMPLETE HOST");
 console.log("RESET書込み開始");
 
 await updateDoc(roomRef,{
+
     hostReset:false,
     guestReset:false,
+
     hostRematch:false,
     guestRematch:false,
+
+    hostNo:false,
+    guestNo:false,
 
     hostFirstCallDone:false,
     guestFirstCallDone:false,
@@ -1850,6 +1917,19 @@ isHost,
 gameEnded
 );
 
+if(
+    data.hostNo ||
+    data.guestNo
+){
+
+    alert(
+    "再戦不成立\n\nTOPメニューに戻ります"
+    );
+
+    showMenu();
+
+    return;
+}
 
 if(winner === "DRAW"){
 
@@ -1980,6 +2060,9 @@ if(rematchTimer){
 
     lastCalledCell = null;
     pendingIndex = null;
+
+document.getElementById("yesBtn").innerText = "〇 YES";
+document.getElementById("yesBtn").disabled = false;
 
     document.getElementById(
     "resultMessage"
@@ -2401,6 +2484,9 @@ createBoard();
 lastCalledCell = null;
 pendingIndex = null;
 
+document.getElementById("yesBtn").innerText = "〇 YES";
+document.getElementById("yesBtn").disabled = false;
+
 rematchAnnounced = false;
 
 console.log(
@@ -2559,13 +2645,23 @@ document.getElementById("helpTitle").innerText=
 document.getElementById("helpText").innerText=
 "公開ルームに参加するモードです。ルーム番号をタップして参加できます。";
 
-}else{
+}
+else if(type==="private"){
 
 document.getElementById("helpTitle").innerText=
 "PRIVATE MATCH";
 
 document.getElementById("helpText").innerText=
 "ルーム番号を共有した相手と対戦できます。";
+
+}
+else if(type==="rule"){
+
+document.getElementById("helpTitle").innerText=
+"RULE";
+
+document.getElementById("helpText").innerText=
+"赤（相手のコール）でBINGOを作れば勝利。\n\nただし赤は自分では作れない。\n\n相手の次の一手を予想し、\n赤ラインを壊さないように\n不要な数字をコールしよう。";
 
 }
 
@@ -2589,36 +2685,50 @@ new Date().getTime()
 
 console.log("YES押下");
 
+this.innerText = "✓ YES";
+this.disabled = true;
+
 if(isHost){
 
-console.log("HOST送信開始");
-await updateDoc(roomRef,{
-hostRematch:true
-});
+    console.log("HOST送信開始");
 
-console.log("HOST送信成功");
+    await updateDoc(roomRef,{
+        hostRematch:true
+    });
+
+    console.log("HOST送信成功");
 
 }else{
 
-console.log("GUEST送信開始");
+    console.log("GUEST送信開始");
 
-await updateDoc(roomRef,{
-guestRematch:true
-});
+    await updateDoc(roomRef,{
+        guestRematch:true
+    });
 
-console.log("GUEST送信成功");
+    console.log("GUEST送信成功");
 
 }
-
-//alert("YES送信");
 
 };
 
 document.getElementById(
 "noBtn"
-).onclick = function(){
+).onclick = async function(){
 
-alert("NO");
+    if(isHost){
+
+        await updateDoc(roomRef,{
+            hostNo:true
+        });
+
+    }else{
+
+        await updateDoc(roomRef,{
+            guestNo:true
+        });
+
+    }
 
 };
 
