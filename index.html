@@ -2,196 +2,191 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>BINGO TACTICS Ver4.3</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BT_CPU_Ver1.13_FIX</title>
 
 <style>
 body{
-    margin:0;
-    background:#1c1c1c;
-    color:white;
-    font-family:Arial,sans-serif;
-    text-align:center;
+background:#1c1c1c;
+color:#fff;
+font-family:Arial;
+text-align:center;
 }
 
-#helpText{
-    font-size:20px;
-    line-height:1.6;
+.cpuArea{
+display:flex;
+justify-content:center;
+align-items:flex-start;
+gap:18px;
 }
 
-.screen{
-    padding:20px;
+.modeButtons{
+display:flex;
+flex-direction:column;
+gap:5px;
 }
 
-.mainBtn{
-    width:200px;
-    padding:15px;
-    margin:10px;
-    font-size:20px;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    color:white;
+.modeRow{
+display:flex;
+align-items:center;
+gap:5px;
 }
 
-.quickBtn{
-    background:#2196F3;
+.modeButtons button{
+margin:0;
+width:80px;
 }
 
-.privateBtn{
-    background:#4CAF50;
+.cpuLevelTop{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    margin:10px 0 15px;
+}
+
+.cpuLevel button,
+.modeButtons button{
+margin:0;
+width:100px;
+}
+
+
+.openBtn{
+background:#4CAF50;
+color:white;
+}
+
+.semiBtn{
+background:#FFD600;
+color:#000;
+}
+
+.blindBtn{
+background:#F44336;
+color:white;
 }
 
 .helpBtn{
-    width:55px;
-    height:55px;
+    width:40px !important;
+    min-width:40px !important;
+    max-width:40px !important;
 
-    border:3px solid white;
+    height:40px !important;
+
     border-radius:50%;
+    background:#c62828;
+    color:#fff;
+    border:2px solid #fff;
 
-    background:#ff3333;
-    color:white;
-
-    font-size:30px;
-    font-weight:bold;
-
-    cursor:pointer;
-
-    box-shadow:0 0 20px #ff3333;
-}
-
-.subBtn{
-    width:220px;
-    padding:12px;
-
-    border:none;
-    border-radius:10px;
-
-    margin:10px;
-
-    font-size:18px;
-
-    cursor:pointer;
-}
-
-.createBtn{
-    background:#00BCD4;
-    color:white;
-}
-
-.joinBtn{
-    background:#FF9800;
-    color:white;
-}
-
-.ruleBtn{
-    background:#FF9800;
-    color:white;
-}
-
-.backBtn{
-    padding:10px 20px;
-
-    background:#666;
-    color:white;
-
-    border:none;
-    border-radius:10px;
-
-    cursor:pointer;
-}
-
-.card{
-    background:#2a2a2a;
-
-    width:320px;
-
-    margin:15px auto;
-
-    padding:15px;
-
-    border-radius:15px;
-}
-
-.roomCard{
-
-    background:#333;
-
-    width:320px;
-
-    margin:12px auto;
-
-    padding:15px;
-
-    border-radius:10px;
-
-    cursor:pointer;
-
-    border:2px solid #666;
-}
-
-.roomCard:hover{
-
-    border:2px solid #2196F3;
-}
-
-.roomNo{
-
-    font-size:30px;
-
-    color:#FFD700;
-
-    font-weight:bold;
-}
-
-.startBtn{
-
-    width:240px;
-
-    padding:15px;
+    padding:0;
+    margin:5px auto;
 
     font-size:22px;
+    font-weight:bold;
+}
 
-    border:none;
-    border-radius:10px;
+.easyBtn{
+background:#42A5F5;
+color:white;
+}
 
-    background:red;
-    color:white;
+.normalBtn{
+background:#FFD600;
+color:#000;
+}
 
-    cursor:pointer;
+.hardBtn{
+background:#1c1c1c;
+color:#fff;
+border:2px solid #fff;
+}
+
+.selected{
+opacity:1;
+box-shadow:0 0 10px #fff;
+}
+
+.notSelected{
+opacity:0.35;
+}
+
+.board{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:3px;
+justify-content:center;
+margin:auto;
+}
+
+.resetBtn{
+background:#00BCD4;
+color:white;
+}
+
+
+.player{
+width:340px;
+}
+
+.cpu{
+width:170px;
+margin:0;
+}
+
+.cell{
+height:60px;
+background:#fff;
+color:#000;
+border-radius:6px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+border:2px solid transparent;
+box-sizing:border-box;
+}
+
+.cpu .cell{
+height:30px;
+font-size:12px;
+}
+
+.lightBlue{
+background:#bcdcff;
+color:#000;
+}
+
+.blue{
+background:#4d94ff;
+color:#fff;
+}
+
+.lightRed{
+background:#ffc0c0;
+color:#000;
+}
+
+.red{
+background:#ff6666;
+color:#fff;
+}
+
+button{
+padding:10px 20px;
+margin:10px;
+border-radius:8px;
+border:none;
+}
+
+#result{
+font-size:48px;
+font-weight:bold;
 }
 
 .popup{
-
     display:none;
 
     position:fixed;
-
-    top:50%;
-    left:50%;
-
-    transform:translate(-50%,-50%);
-
-    background:#2a2a2a;
-
-    border:2px solid white;
-
-    border-radius:15px;
-
-    width:300px;
-
-    padding:20px;
-
-    z-index:1000;
-}
-
-.overlay{
-
-    display:none;
-
-    position:fixed;
-
     top:0;
     left:0;
 
@@ -200,2536 +195,764 @@ body{
 
     background:rgba(0,0,0,0.7);
 
-    z-index:999;
-}
-
-input{
-
-    padding:10px;
-
-    width:180px;
-
-    font-size:20px;
-
-    text-align:center;
-}
-#board{
-    width:350px;
-    margin:auto;
-    display:grid;
-    grid-template-columns:repeat(5,65px);
-    gap:5px;
-    justify-content:center;
-}
-
-.cell{
-    width:65px;
-    height:65px;
-    border:2px solid #444;
-    border-radius:8px;
-    display:flex;
     justify-content:center;
     align-items:center;
-    background:white;
 
-    color:black;
-
-    font-size:24px;
-    font-weight:bold;
-    cursor:pointer;
-    user-select:none;
+    z-index:9999;
 }
 
-.self{
-    background:#4d94ff;
+.popupContent{
+    background:#222;
+    color:#fff;
+
+    width:320px;
+    max-width:90%;
+
+    padding:20px;
+
+    border:2px solid #fff;
+    border-radius:12px;
+
+    text-align:left;
+}
+
+.popupContent h2{
+    text-align:center;
+    margin-top:0;
+}
+
+.popupContent button{
+    width:100%;
+    margin-top:15px;
+    background:#00BCD4;
     color:white;
 }
-
-.self-pending{
-background:#b3d1ff;
-color:white;
-}
-
-.enemy{
-
-background:#ff6666;
-color:white;
-}
-
-#resultMessage{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-font-size:100px;
-font-weight:bold;
-color:gold;
-text-shadow:
--3px -3px 0 #cc0000,
-3px -3px 0 #cc0000,
--3px 3px 0 #cc0000,
-3px 3px 0 #cc0000;
-z-index:9999;
-pointer-events:none;
-}
-
-@keyframes joinFlash{
-0%{
-opacity:1;
-transform:scale(1);
-}
-50%{
-opacity:0.5;
-transform:scale(1.15);
-}
-100%{
-opacity:1;
-transform:scale(1);
-}
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- TOP MENU -->
-
-<div id="menuScreen" class="screen">
-
 <h1>BINGO TACTICS</h1>
 
-<div>
+<div class="cpuLevelTop">
 
-<button
-class="mainBtn quickBtn"
-onclick="showQuickMatch()">
-
-QUICK MATCH
-
-
+<button id="easyBtn"
+class="easyBtn selected"
+onclick="changeLevel('EASY')">
+EASY
 </button>
 
-<button
-class="helpBtn"
-onclick="showHelp('quick')">
+<button id="normalBtn"
+class="normalBtn notSelected"
+onclick="changeLevel('NORMAL')">
+NORMAL
+</button>
 
+<button id="hardBtn"
+class="hardBtn notSelected"
+onclick="changeLevel('HARD')">
+HARD
+</button>
+
+</div>
+
+<h4>CPU BOARD</h4>
+
+<div class="cpuArea">
+
+    <div id="cpu" class="board cpu"></div>
+
+   <div class="modeButtons">
+
+    <button id="openBtn"
+    class="openBtn notSelected"
+    onclick="changeMode('OPEN')">
+    OPEN
+    </button>
+
+    <button id="semiBtn"
+    class="semiBtn selected"
+    onclick="changeMode('SEMI')">
+    SEMI
+    </button>
+
+    <button id="blindBtn"
+    class="blindBtn notSelected"
+    onclick="changeMode('BLIND')">
+    BLIND
+    </button>
+
+   <button class="helpBtn"
+onclick="showModeHelp()">
 ?
-
 </button>
 
-</div>
-
-<div>
-
-<button
-class="mainBtn privateBtn"
-onclick="showPrivateMatch()">
-
-PRIVATE MATCH
-
-</button>
-
-<button
-class="helpBtn"
-onclick="showHelp('private')">
-
-?
-
-</button>
-
-<div>
-
-<button
-class="mainBtn ruleBtn"
-onclick="showHelp('rule')">
-
-RULE
-
-</button>
+  </div>
 
 </div>
 
-</div>
 
-</div>
+<h4>YOUR BOARD</h4>
+<div id="player" class="board player"></div>
 
-<!-- QUICK MATCH -->
+<div id="result"></div>
 
-<div
-id="quickScreen"
-class="screen"
-style="display:none;">
+<button class="resetBtn" id="resetBtn">RESET</button>
 
-<h2>QUICK MATCH</h2>
+<div id="modeHelpPopup" class="popup">
 
-<div
-class="roomCard"
-onclick="joinQuickRoom('4582')">
+    <div class="popupContent">
 
-<div class="roomNo">
-4582
-</div>
+        <h2>MODE HELP</h2>
 
-HOST : Shoshi
-
+<p>
+<b>OPEN</b><br>
+CPUボードの数字と状況を表示します。<br>
 <br>
+ルールの理解や戦術練習に適した
+初心者向けモードです。
+</p>
 
-Waiting...
-
-</div>
-
-<div
-class="roomCard"
-onclick="joinQuickRoom('7124')">
-
-<div class="roomNo">
-7124
-</div>
-
-HOST : ZEN
-
+<p>
+<b>SEMI</b><br>
+CPUボードの状況のみ表示します。<br>
+数字は表示されません。<br>
 <br>
+状況把握と記憶力のバランスを
+楽しめる中級者向けモードです。
+</p>
 
-Waiting...
-
-</div>
-
-<div
-class="roomCard"
-onclick="joinQuickRoom('9011')">
-
-<div class="roomNo">
-9011
-</div>
-
-HOST : Player
-
+<p>
+<b>BLIND</b><br>
+CPUボードの情報を表示しません。<br>
 <br>
-
-Waiting...
-
-</div>
-
-<button
-class="subBtn createBtn"
-onclick="createQuickRoom()">
-
-CREATE ROOM
-
-</button>
-
-<br>
-
-<button
-class="backBtn"
-onclick="showMenu()">
-
-BACK
-
-</button>
-
-</div>
-
-<!-- PRIVATE MATCH -->
-
-<div
-id="privateScreen"
-class="screen"
-style="display:none;">
-
-<h2>PRIVATE MATCH</h2>
-
-<button
-class="subBtn createBtn"
-onclick="createPrivateRoom()">
-
-CREATE ROOM
-
-</button>
-
-<br><br>
-
-Room Number
-
-<br><br>
-
-<input
-id="privateRoomInput"
-placeholder="1234">
-
-<br><br>
-
-<button
-class="subBtn joinBtn"
-onclick="joinPrivateRoom()">
-
-JOIN
-
-</button>
-
-<br><br>
-
-<button
-class="backBtn"
-onclick="showMenu()">
-
-BACK
-
-</button>
-
-</div>
-
-<!-- WAIT ROOM -->
-
-<div
-id="gameScreen"
-class="screen"
-style="display:none;"
->
-<h1>GAME START</h1>
-
-<h2 id="orderLabel"></h2>
-
-<h2 id="turnLabelGame"></h2>
-
-<div id="resultMessage"></div>
-
-<div id="board"></div>
-
-<br><br>
-
-<button
-id="resetBtn"
-class="backBtn">
-RESET
-</button>
-
-<p id="resetStatus" style="display:none;">
-HOST RESET ❌<br>
-GUEST RESET ❌
+記憶と推理だけで戦う
+BTの基本プレースタイルです。<br>
+上達を目指すならこのモード推奨。
+</p>
+<p style="text-align:center;color:#FFD600;">
+おすすめ：SEMI → BLIND の順で挑戦
 </p>
 
-<div id="rematchBox" style="display:none;">
+        <button onclick="closeModeHelp()">
+        CLOSE
+        </button>
 
-<h2>もう一戦？</h2>
-
-<button id="yesBtn">
-〇 YES
-</button>
-
-<button id="noBtn">
-✕ NO
-</button>
+    </div>
 
 </div>
-
-</div>
-
-<div
-id="waitScreen"
-class="screen"
-style="display:none;">
-
-<h2 id="waitTitle"></h2>
-
-<div class="card">
-
-<p>ROOM NUMBER</p>
-
-<div
-class="roomNo"
-id="waitRoomNo">
-
-0000
-
-</div>
-
-<hr>
-
-<h3>HOST</h3>
-<p id="hostLabel">
-Shoshi
-</p>
-
-<hr>
-
-<h3>GUEST</h3>
-<p id="guestLabel">
-Waiting...
-</p>
-
-<hr>
-<h3>HOST READY</h3>
-<p id="hostReadyLabel">
-NO
-</p>
-
-<hr>
-
-<h3>GUEST READY</h3>
-<p id="guestReadyLabel">
-NO
-</p>
-
-<hr>
-
-<h3>CONNECTION</h3>
-<p id="readyStatus">
-🟡 相手待機中
-</p>
-
-<hr>
-
-
-<h3 id="roleLabel"></h3>
-
-<p id="turnLabel"></p>
-
-</div>
-
-<button
-class="startBtn"
-onclick="readyUp()">
-
-READY
-
-</button>
-
-<br><br>
-
-<button
-class="backBtn"
-onclick="showMenu()">
-
-BACK
-
-</button>
-
-</div>
-
-<!-- HELP -->
-
-<div
-id="overlay"
-class="overlay"
-onclick="closeHelp()">
-</div>
-
-<div
-id="helpPopup"
-class="popup">
-
-<h2 id="helpTitle"></h2>
-
-<p id="helpText"></p>
-
-<br>
-
-<button
-class="backBtn"
-onclick="closeHelp()">
-
-CLOSE
-
-</button>
-
-</div>
-
-<script type="module">
-
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-import {
-getFirestore,
-doc,
-getDoc,
-setDoc,
-updateDoc,
-onSnapshot
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-const firebaseConfig = {
-apiKey: "AIzaSyAfLxgAzWA8ozZOJJHRS795H4u5aBwXE9c",
-authDomain: "bt-mobile-f126a.firebaseapp.com",
-projectId: "bt-mobile-f126a",
-storageBucket: "bt-mobile-f126a.firebasestorage.app",
-messagingSenderId: "779653776766",
-appId: "1:779653776766:web:230aac9341a4b9bc229f2f",
-measurementId: "G-QTSHMQK53V"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-window.db = db;
-window.doc = doc;
-window.getDoc = getDoc;
-window.setDoc = setDoc;
-window.updateDoc = updateDoc;
-window.onSnapshot = onSnapshot;
-
-console.log("Firebase OK");
-
-</script>
-
 <script>
 
-let roomId = "";
-let roomRef = null;
-let playerId = "";
-let isHost = false;
-let pendingIndex = null;
-let pendingTimer = null;
-let opponentJoined = false;
-let gameStartedFlag = false;
-let cells = [];
-let states = [];
-let lastCalledCell = null;
-let gameEnded = false;
-let resetTimer = null;
-let rematchAnnounced = false;
-let rematchTimer = null;
 
 
-async function readyUp(){
+let resetHoldTimer = null;
 
-    console.log("READY押下");
+const resetBtn = document.getElementById("resetBtn");
 
-    if(isHost){
 
-        await updateDoc(roomRef,{
-            hostReady:true
- 
-        });
 
-    }else{
+// PC
+resetBtn.addEventListener("mousedown", startResetHold);
+resetBtn.addEventListener("mouseup", cancelResetHold);
+resetBtn.addEventListener("mouseleave", cancelResetHold);
 
-        await updateDoc(roomRef,{
-            guestReady:true,
+// スマホ
+resetBtn.addEventListener("touchstart", startResetHold);
+resetBtn.addEventListener("touchend", cancelResetHold);
+resetBtn.addEventListener("touchcancel", cancelResetHold);
 
-        });
+function startResetHold(){
 
-    }
+    resetBtn.textContent = "HOLD...";
 
-}
-
-function hideAll(){
-
-document.getElementById("menuScreen").style.display="none";
-document.getElementById("quickScreen").style.display="none";
-document.getElementById("privateScreen").style.display="none";
-document.getElementById("waitScreen").style.display="none";
-document.getElementById("gameScreen").style.display="none";
-
-}
-
-function showMenu(){
-
-hideAll();
-
-document.getElementById("menuScreen").style.display="block";
-
-}
-
-function showPrivateMatch(){
-
-hideAll();
-
-document.getElementById("privateScreen").style.display="block";
-
-}
-
-function generateRoomNo(){
-
-return Math.floor(1000 + Math.random()*9000);
-
-}
-
-function openWaitRoom(roomNo,isHost){
-
-hideAll();
-
-document.getElementById("waitScreen").style.display="block";
-
-document.getElementById("waitRoomNo").innerText=roomNo;
-
-if(isHost){
-
-/*
-document.getElementById("roleLabel").innerText=
-"YOU ARE HOST";
-
-document.getElementById("turnLabel").innerText=
-"FIRST PLAYER";
-*/
-
-document.getElementById("guestLabel").innerText=
-"Waiting...";
-
-}else{
-
-/*
-document.getElementById("roleLabel").innerText=
-"YOU ARE GUEST";
-
-document.getElementById("turnLabel").innerText=
-"SECOND PLAYER";
-*/
-document.getElementById("guestLabel").innerText=
-"Shoshi";
-
-}
-
-}
-
-function createQuickRoom(){
-
-document.getElementById("waitTitle").innerText=
-"QUICK MATCH";
-
-openWaitRoom(
-generateRoomNo(),
-true
-);
-
-}
-async function createPrivateRoom()
-{
-console.log(db);
-console.log(doc);
-console.log(setDoc);
-
-roomId = generateRoomNo().toString();
-
-isHost = true;
-
-roomRef = doc(db,"rooms",roomId);
-
-await setDoc(roomRef,{
-host:"A",
-guest:"",
-playerCount:1,
-hostReady:false,
-guestReady:false,
-currentTurn:"HOST",
-lastCall:0,
-lastCaller:"",
-hostFirstCallDone:false,
-guestFirstCallDone:false,
-winner:"",
-hostReset:false,
-guestReset:false,
-
-hostRematch:false,
-guestRematch:false,
-
-hostNo:false,
-guestNo:false
-
-});
-
-//alert("作成番号:"+roomId);
-
-document.getElementById("waitTitle").innerText =
-"PRIVATE MATCH";
-
-openWaitRoom(
-roomId,
-true
-);
-
-onSnapshot(roomRef,async (docSnap)=>{
-
-const data = docSnap.data();
-
-if(!data){
-return;
-}
-
-console.log(
-"HOST SNAPSHOT RAW",
-JSON.stringify(data)
-);
-
-console.log(
-"受信lastCall=",
-data.lastCall
-);
-
-if(
-(isHost && data.lastCaller==="HOST") ||
-(!isHost && data.lastCaller==="GUEST")
-){
-    console.log("自分送信なので赤化スキップ");
-}else{
-
-    for(let i=0;i<cells.length;i++){
-
-        if(
-            parseInt(cells[i].innerText)
-            === data.lastCall
-        ){
-
-            states[i] = 3;
-            updateCell(i);
-
-let unused = 0;
-
-for(let j=0;j<25;j++){
-    if(states[j] === 0){
-        unused++;
-    }
-}
-
-console.log("unused=", unused);
-   
- const enemyLines = checkBingo(3);
-
-console.log(
-"enemyLines=",
-enemyLines
-);
-
-/*
-if(gameEnded){
-    console.log("HOST gameEnded return 発動");
-    return;
-}
-*/
-
-if(
-    enemyLines > 0 &&
-    !gameEnded &&
-    !data.winner
-){
-
-    gameEnded = true;
-
-    const result =
-    document.getElementById(
-    "resultMessage"
-    );
-
-   result.innerText = "BINGO!!";
-result.style.color = "#FFD700";
-result.style.fontSize = "18vw";
-result.style.fontWeight = "bold";
-result.style.webkitTextStroke = "2px black";
-result.style.textShadow =
-"0 0 5px #FFD700, 0 0 10px #FFD700, 0 0 20px #FFD700";
-
-setTimeout(()=>{
-
-    result.innerText = "YOU WIN";
-    result.style.color = "#00ff66";
-    result.style.textShadow = "none";
-
-},1500);
-
-    if(!rematchTimer){
-
-        rematchTimer = setTimeout(()=>{
-
-document.getElementById("yesBtn").innerText = "〇 YES";
-document.getElementById("yesBtn").disabled = false;
-
-            document.getElementById(
-                "rematchBox"
-            ).style.display = "block";
-
-            rematchTimer = null;
-
-        },3000);
-
-    }
-
-    console.log(
-        "HOST WIN WRITE START",
-        Date.now(),
-        "lastCall=",
-        data.lastCall
-    );
-
-    await updateDoc(roomRef,{
-        winner:"HOST"
-    });
-
-    console.log(
-        "HOST WIN WRITE END",
-        Date.now()
-    );
-
-}
-else if(unused === 1){
-
-    const result =
-    document.getElementById("resultMessage");
-
-    result.innerText = "DRAW";
-    result.style.color = "#00BFFF";
-    result.style.fontSize = "140px";
-    result.style.fontWeight = "bold";
-    result.style.webkitTextStroke = "2px black";
-
-    gameEnded = true;
-
-    await updateDoc(roomRef,{
-        winner:"DRAW"
-    });
-
-
-}
-
-            if(lastCalledCell){
-                lastCalledCell.style.border =
-                "2px solid #444";
-            }
-
-            cells[i].style.border =
-            "5px solid yellow";
-
-            lastCalledCell = cells[i];
-        }
-    }
-}
-if(
-    data.hostReady &&
-    data.guestReady &&
-    !data.gameStarted &&
-    isHost
-){
-
-    updateDoc(roomRef,{
-        gameStarted:true
-    });
-
-}
-
-if(
-data.playerCount >= 2 &&
-!opponentJoined
-){
-
- opponentJoined = true;
-
-    const guestLabel =
-    document.getElementById(
-    "guestLabel"
-    );
-
-    guestLabel.innerText =
-    "⚡ PLAYER JOINED! ⚡";
-
-    guestLabel.style.color =
-    "#00ff66";
-
-    guestLabel.style.fontSize =
-    "24px";
-
-    guestLabel.style.fontWeight =
-    "bold";
-
-    guestLabel.style.textShadow =
-    "0 0 10px #00ff66";
-
-    guestLabel.style.animation =
-    "joinFlash 1s infinite";
-
-    //alert("相手が参加しました");
-
-}
-
-const readyStatus =
-document.getElementById("readyStatus");
-
-if(data.playerCount < 2){
-
-    readyStatus.innerText =
-    "🟡 相手待機中";
-
-}else{
-
-    if(data.hostReady &&
-       data.guestReady){
-
-        readyStatus.innerText =
-        "✅ 対戦可能";
-
-    }else{
-
-        const opponentReady =
-        data.guestReady;
-
-        if(opponentReady){
-
-            readyStatus.innerText =
-            "🟢 相手準備完了";
-
-        }else{
-
-            readyStatus.innerText =
-            "🔴 相手未準備";
-
-        }
-
-    }
-
-}
-
-
-if(data.hostReady){
-
-document.getElementById(
-"hostReadyLabel"
-).innerText = "READY";
-
-}
-
-const winner = data.winner;
-
-console.log(
-"LOSE CHECK",
-winner,
-isHost,
-gameEnded
-);
-
-if(
-    data.hostNo ||
-    data.guestNo
-){
-
-    alert(
-    "再戦不成立\n\nTOPメニューに戻ります"
-    );
-
-    showMenu();
-
-    return;
-}
-
-if(winner === "DRAW"){
-
-    const result =
-    document.getElementById("resultMessage");
-
-    result.innerText = "DRAW";
-    result.style.color = "#00BFFF";
-    result.style.fontSize = "18vw";
-    result.style.fontWeight = "bold";
-    result.style.webkitTextStroke = "2px black";
-
-    gameEnded = true;
-
-    if(!rematchTimer){
-        rematchTimer = setTimeout(()=>{
-            document.getElementById(
-                "rematchBox"
-            ).style.display = "block";
-
-            rematchTimer = null;
-        },3000);
-    }
-
-    console.log("DRAW処理終了");
-    
-}
-
-
-else if(
-winner &&
-winner !== (isHost ? "HOST" : "GUEST")
-){
-
-    console.log(
-    "HOST LOSE BRANCH IN",
-    winner,
-    gameEnded
-    );
-
-    if(!gameEnded){
-
-        console.log(
-        "HOST LOSE EXECUTE"
-        );
-
-        gameEnded = true;
-
-        console.log(
-        "LOSE受信詳細",
-        winner,
-        data.lastCall,
-        data.currentTurn,
-        data.hostReset,
-        data.guestReset
-        );
-
-        const result =
-        document.getElementById(
-        "resultMessage"
-        );
-
-        result.innerText = "YOU LOSE";
-        result.style.color = "#A020F0";
-
-        if(!rematchTimer){
-
-            rematchTimer = setTimeout(()=>{
-
-                console.log(
-                    "REMATCH OPEN CHECK",
-                    document.getElementById("yesBtn").innerText,
-                    document.getElementById("yesBtn").disabled
-                );
-
-                console.log(
-                    "REMATCH BOX OPEN",
-                    Date.now()
-                );
-
-                document.getElementById(
-                    "yesBtn"
-                ).innerText = "〇 YES";
-
-                document.getElementById(
-                    "yesBtn"
-                ).disabled = false;
-
-                document.getElementById(
-                    "rematchBox"
-                ).style.display = "block";
-
-                rematchTimer = null;
-
-            },3000);
-
-        }
-
-    }
-
-}
-const currentTurn = data.currentTurn;
-
-console.log("HOST SNAPSHOT");
-console.log(data);
-
-console.log(
-    "currentTurn=",
-    currentTurn,
-    "isHost=",
-    isHost
-);
-console.log(
-"RESET STATUS",
-data.hostReset,
-data.guestReset
-);
-document.getElementById(
-"resetStatus"
-).innerHTML =
-"HOST RESET " +
-(data.hostReset ? "✅" : "❌")
-+
-"<br>" +
-"GUEST RESET " +
-(data.guestReset ? "✅" : "❌");
-
-if(
-    data.hostReset &&
-    data.guestReset
-){
-
-if(rematchTimer){
-    clearTimeout(rematchTimer);
-    rematchTimer = null;
-    console.log("REMATCH TIMER STOP");
-}
-
-console.log("両者RESET成立");
-
-    document.getElementById(
-    "resetStatus"
-    ).style.display = "none";
-
-    document.getElementById(
-    "resetBtn"
-    ).style.display = "none";
-
-    document.getElementById(
-    "rematchBox"
-    ).style.display = "none";
-
-    rematchAnnounced = false;
-console.log(
-"UI CHECK",
-document.getElementById("rematchBox").style.display,
-document.getElementById("resetBtn").style.display
-);
-}
-
-if(
-    data.hostReset &&
-    data.guestReset &&
-    isHost
-){
-
-console.log("HOST RESET条件到達");
-
-console.log(
-"HOST RESET DATA",
-JSON.stringify(data)
-);
-
-console.log("両者RESET成立");
-
-document.getElementById(
-"resetStatus"
-).style.display = "none";
-
-document.getElementById(
-"resetBtn"
-).style.display = "none";
-
-document.getElementById(
-"rematchBox"
-).style.display = "none";
-
-rematchAnnounced = false;
-
-if(lastCalledCell){
-    lastCalledCell.style.border =
-    "2px solid #444";
-}
-
-createBoard();
-
-console.log(
-"HOST RESET後 enemyLines=",
-checkBingo(3)
-);
-
-lastCalledCell = null;
-pendingIndex = null;
-
-document.getElementById(
-"resultMessage"
-).innerText = "";
-
-
-console.log("RESET COMPLETE HOST");
-
-console.log("RESET書込み開始");
-
-await updateDoc(roomRef,{
-
-    hostReset:false,
-    guestReset:false,
-
-    hostRematch:false,
-    guestRematch:false,
-
-    hostNo:false,
-    guestNo:false,
-
-    hostFirstCallDone:false,
-    guestFirstCallDone:false,
-
-    lastCall:0,
-    lastCaller:"",
-    winner:"",
-    currentTurn:"HOST"
-});
-
-const snap = await getDoc(roomRef);
-
-console.log(
-"RESET後確認",
-JSON.stringify(snap.data())
-);
-
-console.log("RESET書込み完了");
-
-setTimeout(()=>{
-
-    gameEnded = false;
-
-    console.log(
-    "gameEnded解除"
-    );
-
-},1000);
-
-return;
-
-}
-
-console.log(
-"REMATCH STATUS",
-data.hostRematch,
-data.guestRematch,
-rematchAnnounced,
-"winner=",
-data.winner,
-"hostReset=",
-data.hostReset,
-"guestReset=",
-data.guestReset
-);
-
-console.log(
-"再戦判定",
-data.hostRematch,
-data.guestRematch,
-rematchAnnounced,
-gameEnded
-);
-
-if(
-data.hostRematch &&
-data.guestRematch &&
-!rematchAnnounced
-){
-console.log("再戦成立ブロック実行");
-if(
-data.hostReset ||
-data.guestReset
-){
-    return;
-}
-
-if(gameEnded === false){
-    return;
-}
-
-console.log("再戦成立ブロック実行");
-
-    rematchAnnounced = true;
-
-   // alert("再戦成立");
-
-    document.getElementById(
-    "resetBtn"
-    ).style.display = "inline-block";
-
-    document.getElementById(
-    "resetStatus"
-    ).style.display = "block";
-
-    document.getElementById(
-    "resetStatus"
-    ).innerHTML =
-    "HOST RESET ❌<br>GUEST RESET ❌";
-}
-
-/*
-if(
-data.hostRematch ||
-data.guestRematch
-){
-
-document.getElementById(
-"resetStatus"
-).innerHTML =
-"HOST REMATCH " +
-(data.hostRematch ? "✅" : "❌")
-+
-"<br>"
-+
-"GUEST REMATCH " +
-(data.guestRematch ? "✅" : "❌");
-
-
-}
-*/
-
-document.getElementById(
-"resetStatus"
-).innerHTML =
-"HOST RESET " +
-(data.hostReset ? "✅" : "❌")
-+
-"<br>GUEST RESET " +
-(data.guestReset ? "✅" : "❌");
-
-
-if(
-    data.hostReset &&
-    data.guestReset
-){
-
-console.log("RESET COMPLETE前");
-
-console.log("GUEST RESET処理開始");
-
-    document.getElementById(
-    "resetStatus"
-    ).style.display = "none";
-
-    document.getElementById(
-    "resetBtn"
-    ).style.display = "none";
-
-    document.getElementById(
-    "rematchBox"
-    ).style.display = "none";
-
-    rematchAnnounced = false;
-
-    if(lastCalledCell){
-        lastCalledCell.style.border =
-        "2px solid #444";
-    }
-
-    createBoard();
-
-console.log(
-"GUEST RESET後 enemyLines=",
-checkBingo(3)
-);
-
-lastCalledCell = null;
-pendingIndex = null;
-   
-    document.getElementById(
-    "resultMessage"
-    ).innerText = "";
-
-    gameEnded = false;
-
-console.log(
-"RESET COMPLETE",
-rematchAnnounced
-);
-
-console.log(
-"GUEST RESET COMPLETE",
-JSON.stringify(data)
-);
-
-setTimeout(()=>{
-
-console.log(
-"3秒後UI確認",
-document.getElementById(
-"rematchBox"
-).style.display,
-document.getElementById(
-"resetBtn"
-).style.display
-);
-
-},3500);
+    resetHoldTimer = setTimeout(()=>{
 
-}
-
-if(
-    data.hostFirstCallDone &&
-    data.guestFirstCallDone
-){
-
-    document.getElementById(
-    "orderLabel"
-).innerText =
-"🟢 Connected";
-
-}
-
-console.log("currentTurn=", currentTurn);
-
-if(currentTurn){
-
-    if(isHost){
-
-        document.getElementById(
-            "turnLabelGame"
-        ).innerText =
-        currentTurn==="HOST"
-        ? "あなたのターン"
-        : "相手のターン";
-
-    }else{
-
-        document.getElementById(
-            "turnLabelGame"
-        ).innerText =
-        currentTurn==="GUEST"
-        ? "あなたのターン"
-        : "相手のターン";
-    }
-
-    console.log(
-        "currentTurn=",
-        currentTurn
-    );
-
-    console.log(
-        "turnLabelGame=",
-        document.getElementById("turnLabelGame").innerText
-    );
-
-}
-
-if(data.guestReady){
-
-document.getElementById(
-"guestReadyLabel"
-).innerText = "READY";
-
-}
-
-if(
-    data.gameStarted &&
-    !gameStartedFlag
-){
-
-    gameStartedFlag = true;
-
-    console.log("START GAME実行");
-
-    startGame();
-
-}
-});
-}
-
-function joinQuickRoom(roomNo){
-
-document.getElementById("waitTitle").innerText=
-"QUICK MATCH";
-
-openWaitRoom(
-roomNo,
-false
-);
-
-}
-
-async function joinPrivateRoom(){
-
-isHost = false;
-
-roomId =
-document.getElementById("privateRoomInput").value;
-
-if(roomId===""){
-alert("ルーム番号を入力してください");
-return;
-}
-
-roomRef = doc(db,"rooms",roomId);
-
-const snap = await getDoc(roomRef);
-
-if(!snap.exists()){
-
-alert("ルームが存在しません");
-
-return;
-
-}
-
-await updateDoc(roomRef,{
-guest:"B",
-playerCount:2
-});
-
-document.getElementById("waitTitle").innerText=
-"PRIVATE MATCH";
-
-openWaitRoom(
-roomId,
-false
-);
-
-onSnapshot(roomRef,async (docSnap)=>{
-const data = docSnap.data();
-
-if(!data){
-return;
-}
-
-
-console.log("GUEST SNAPSHOT");
-console.log(data);
-
-console.log(
-"受信lastCall=",
-data.lastCall
-);
-
-
-if(
-(isHost && data.lastCaller==="HOST") ||
-(!isHost && data.lastCaller==="GUEST")
-){
-    console.log("自分送信なので赤化スキップ");
-}else{
-
-    for(let i=0;i<cells.length;i++){
-
-        if(
-            parseInt(cells[i].innerText)
-            === data.lastCall
-        ){
-
-    console.log(
-        "YELLOW TARGET",
-        "i=" + i,
-        "number=" + cells[i].innerText,
-        "lastCall=" + data.lastCall
-    );
-
-    states[i] = 3;
-    updateCell(i);
-
-states[i] = 3;
-updateCell(i);
-
-let unused = 0;
-
-for(let j=0;j<25;j++){
-    if(states[j] === 0){
-        unused++;
-    }
-}
-
-const enemyLines = checkBingo(3);
-
-console.log(
-"enemyLines=",
-enemyLines
-);
-
-console.log(
-"敵ライン判定",
-enemyLines,
-"lastCall=",
-data.lastCall,
-"winner=",
-data.winner
-);
-
-/*
-if(gameEnded){
-    return;
-}
-
-*/
-if(
-    enemyLines > 0 &&
-    !gameEnded &&
-    !data.winner
-){
-
-    console.log(
-    "GUEST winner書込み実行",
-    Date.now(),
-    "lastCall=",
-    data.lastCall,
-    "gameEnded=",
-    gameEnded
-    );
-
-    gameEnded = true;
-
-    const result =
-    document.getElementById("resultMessage");
-
-    result.innerText = "BINGO!!";
-result.style.color = "#FFD700";
-result.style.fontSize = "18vw";
-result.style.fontWeight = "bold";
-result.style.webkitTextStroke = "2px black";
-result.style.textShadow =
-"0 0 5px #FFD700, 0 0 10px #FFD700, 0 0 20px #FFD700";
-
-setTimeout(()=>{
-
-    result.innerText = "YOU WIN";
-    result.style.color = "#00ff66";
-
-},1500);
-
-    if(!rematchTimer){
-
-        rematchTimer = setTimeout(()=>{
-
-            document.getElementById(
-            "rematchBox"
-            ).style.display = "block";
-
-            rematchTimer = null;
-
-        },3000);
-
-    }
-
-    console.log(
-    "winner:GUEST 書込み"
-    );
-
-console.log(
-"★★★★★ GUEST WIN WRITE ★★★★★",
-Date.now(),
-"enemyLines=",
-enemyLines,
-"winnerBefore=",
-data.winner,
-"lastCall=",
-data.lastCall,
-"gameEnded=",
-gameEnded
-);
-
-console.log(
-"★★★★★ GUEST WIN WRITE START ★★★★★",
-Date.now(),
-"lastCall=",
-data.lastCall
-);
-
-await updateDoc(roomRef,{
-    winner:"GUEST"
-});
-
-console.log(
-"★★★★★ GUEST WIN WRITE END ★★★★★",
-Date.now()
-);
-
-}
-
-else if(unused === 1){
-
-    const result =
-    document.getElementById("resultMessage");
-
-    result.innerText = "DRAW";
-
-    result.style.color = "#00BFFF";
-
-    gameEnded = true;
-
-    await updateDoc(roomRef,{
-        winner:"DRAW"
-    });
-
-}
-
-console.log("WIN処理終了");
-
-
-
-if(lastCalledCell){
-
-            
-                lastCalledCell.style.border =
-                "2px solid #444";
-            }
-
-            cells[i].style.border =
-"5px solid yellow";
-
-console.log(
-    "YELLOW SET",
-    "i=" + i,
-    cells[i]
-);
-
-lastCalledCell = cells[i];
-
-        }
-    }
-}
-
-
-if(data.hostReady){
-console.log("turn更新処理へ");
-document.getElementById(
-"hostReadyLabel"
-).innerText="READY";
-}
-
-if(data.guestReady){
-document.getElementById(
-"guestReadyLabel"
-).innerText="READY";
-}
-
-const readyStatus =
-document.getElementById("readyStatus");
-
-if(data.playerCount < 2){
-
-    readyStatus.innerText =
-    "🟡 HOST待機中";
-
-}else{
-
-    if(data.hostReady &&
-       data.guestReady){
-
-        readyStatus.innerText =
-        "✅ 対戦可能";
-
-    }else{
-
-        const opponentReady =
-        data.hostReady;
-
-        if(opponentReady){
-
-            readyStatus.innerText =
-            "🟢 HOST準備完了";
-
-        }else{
-
-            readyStatus.innerText =
-            "🔴 HOST未準備";
-
-        }
-
-    }
+        resetBtn.textContent = "RESET";
 
-}
-
-const winner = data.winner;
-
-console.log(
-"WINNER WATCH",
-winner,
-"lastCall=",
-data.lastCall,
-"hostReset=",
-data.hostReset,
-"guestReset=",
-data.guestReset
-);
-
-console.log(
-"LOSE CHECK",
-winner,
-isHost,
-gameEnded
-);
-
-if(
-    data.hostNo ||
-    data.guestNo
-){
-
-    alert(
-    "再戦不成立\n\nTOPメニューに戻ります"
-    );
-
-    showMenu();
-
-    return;
-}
-
-if(winner === "DRAW"){
-
-    const result =
-    document.getElementById("resultMessage");
-
-    result.innerText = "DRAW";
-    result.style.color = "#00BFFF";
-    result.style.fontSize = "18vw";
-    result.style.fontWeight = "bold";
-    result.style.webkitTextStroke = "2px black";
-
-    gameEnded = true;
-
-    if(!rematchTimer){
-        rematchTimer = setTimeout(()=>{
-            document.getElementById(
-                "rematchBox"
-            ).style.display = "block";
-
-            rematchTimer = null;
-        },3000);
-    }
-
-    console.log("DRAW処理終了");
-    
-}
-
-else if(
-winner &&
-winner !== (isHost ? "HOST" : "GUEST")
-){
-
-    if(!gameEnded){
-
-        console.log(
-        "LOSE処理突入",
-        winner,
-        isHost,
-        gameEnded
-        );
-
-        gameEnded = true;
-
-        const result =
-        document.getElementById(
-        "resultMessage"
-        );
-
-        result.innerText = "YOU LOSE";
-        result.style.color = "#A020F0";
-
-        if(!rematchTimer){
-
-            rematchTimer = setTimeout(()=>{
-
-                console.log(
-                "REMATCH BOX OPEN",
-                Date.now()
-                );
-
-                document.getElementById(
-                "rematchBox"
-                ).style.display = "block";
-
-                rematchTimer = null;
-
-            },3000);
-
-        }
-
-    }
-
-}
-const currentTurn = data.currentTurn;
-
-console.log(
-data.hostReset,
-data.guestReset
-);
-
-console.log(
-"RESET STATUS",
-data.hostReset,
-data.guestReset
-);
-document.getElementById(
-"resetStatus"
-).innerHTML =
-"HOST RESET " +
-(data.hostReset ? "✅" : "❌")
-+
-"<br>" +
-"GUEST RESET " +
-(data.guestReset ? "✅" : "❌");
-
-if(
-    data.hostReset &&
-    data.guestReset
-){
-
-if(rematchTimer){
-    clearTimeout(rematchTimer);
-    rematchTimer = null;
-    console.log("REMATCH TIMER STOP");
-}
-
-    document.getElementById(
-    "resetStatus"
-    ).style.display = "none";
-
-    document.getElementById(
-    "resetBtn"
-    ).style.display = "none";
-
-    document.getElementById(
-    "rematchBox"
-    ).style.display = "none";
-
-    rematchAnnounced = false;
-
-    if(lastCalledCell){
-        lastCalledCell.style.border =
-        "2px solid #444";
-    }
-
-    createBoard();
-
-    lastCalledCell = null;
-    pendingIndex = null;
-
-document.getElementById("yesBtn").innerText = "〇 YES";
-document.getElementById("yesBtn").disabled = false;
-
-    document.getElementById(
-    "resultMessage"
-    ).innerText = "";
-
-    gameEnded = false;
-
-console.log(
-"RESET COMPLETE",
-rematchAnnounced
-);
-
-setTimeout(()=>{
-
-console.log(
-"3秒後UI確認",
-document.getElementById(
-"rematchBox"
-).style.display,
-document.getElementById(
-"resetBtn"
-).style.display
-);
-
-},3500);
-
-}
-
-console.log(
-"REMATCH STATUS",
-data.hostRematch,
-data.guestRematch,
-rematchAnnounced,
-"winner=",
-data.winner,
-"hostReset=",
-data.hostReset,
-"guestReset=",
-data.guestReset
-);
-
-console.log(
-"GUEST REMATCH CHECK",
-data.hostRematch,
-data.guestRematch,
-rematchAnnounced,
-"winner=",
-data.winner,
-"hostReset=",
-data.hostReset,
-"guestReset=",
-data.guestReset
-);
-
-console.log(
-"再戦判定",
-data.hostRematch,
-data.guestRematch,
-rematchAnnounced,
-gameEnded
-);
-
-if(
-data.hostRematch &&
-data.guestRematch &&
-!rematchAnnounced
-){
-
-if(
-data.hostReset ||
-data.guestReset
-){
-    return;
-}
-
-if(gameEnded === false){
-    return;
-}
+        restart();
 
-console.log("再戦成立ブロック実行");
-
-    rematchAnnounced = true;
-
-    //alert("再戦成立");
-
-    document.getElementById(
-    "resetBtn"
-    ).style.display = "inline-block";
-
-    document.getElementById(
-    "resetStatus"
-    ).style.display = "block";
-
-    document.getElementById(
-    "resetStatus"
-    ).innerHTML =
-    "HOST RESET ❌<br>GUEST RESET ❌";
-}
-
-if(
-    data.hostFirstCallDone &&
-    data.guestFirstCallDone
-){
-
-    document.getElementById(
-    "orderLabel"
-).innerText =
-"🟢 Connected";
-
-}
-
-if(currentTurn){
-
-    if(isHost){
-
-        document.getElementById(
-            "turnLabelGame"
-        ).innerText =
-        currentTurn==="HOST"
-        ? "あなたのターン"
-        : "相手のターン";
-
-    }else{
-
-        document.getElementById(
-            "turnLabelGame"
-        ).innerText =
-        currentTurn==="GUEST"
-        ? "あなたのターン"
-        : "相手のターン";
-
-    }
-
-}
-
-if(
-    data.gameStarted &&
-    !gameStartedFlag
-){
-
-    gameStartedFlag = true;
-
-    console.log("START GAME実行");
-
-    startGame();
-
-}
-});
-}
-
-async function nextTurn(){
-
-    console.log("① NEXT TURN押下");
-
-    const snap = await getDoc(roomRef);
-
-    console.log("② SNAP取得成功");
-
-    const data = snap.data();
-
-    console.log("③ DATA取得", data);
-
-    if(!data){
-        console.log("④ dataなし");
-        return;
-    }
-
-    const nextTurn =
-        data.currentTurn === "HOST"
-        ? "GUEST"
-        : "HOST";
-
-    console.log("⑤ nextTurn=", nextTurn);
-
-    await updateDoc(roomRef,{
-        currentTurn: nextTurn
-    });
-
-    console.log("⑥ Firestore更新完了");
-
+    },1500);
 }
-
-function startGame(){
-
-console.log("startGame開始");
-
-hideAll();
-
-console.log("hideAll後");
-
-document.getElementById(
-"gameScreen"
-).style.display="block";
-
-console.log("gameScreen表示後");
-
-if(isHost){
-
-document.getElementById(
-"orderLabel"
-).innerText =
-"あなたが先攻";
-
-document.getElementById(
-"turnLabelGame"
-).innerText =
-"あなたのターン";
-
-}else{
 
-document.getElementById(
-"orderLabel"
-).innerText =
-"あなたが後攻";
+function cancelResetHold(){
 
-document.getElementById(
-"turnLabelGame"
-).innerText =
-"相手のターン";
+    clearTimeout(resetHoldTimer);
 
+    resetBtn.textContent = "RESET";
 }
 
-createBoard();
+let playerTurn = true;
+let gameOver = false;
 
-document.getElementById(
-"resetBtn"
-).style.display = "none";
+const nums = [...Array(25)].map((_,i)=>i+1);
 
-document.getElementById(
-"resetBtn"
-).onclick =
-resetBoard;
-
-document.getElementById(
-"rematchBox"
-).style.display = "none";
-
-document.getElementById(
-"resetStatus"
-).style.display = "none";
-
-document.getElementById(
-"resetBtn"
-).style.display = "none";
-
-rematchAnnounced = false;
-
-document.getElementById(
-"resetStatus"
-).innerHTML =
-
-"HOST RESET ❌<br>GUEST RESET ❌";
-
+function sh(a){
+    return [...a].sort(()=>Math.random()-.5);
 }
-
-function updateCell(index){
 
-const cell = cells[index];
+let p,c;
 
-cell.className = "cell";
-
-switch(states[index]){
-
-case 2:
-cell.classList.add("self-pending");
-break;
-
-case 3:
-cell.classList.add("enemy");
-break;
-
-case 4:
-cell.classList.add("self");
-break;
-
-}
-
-}
+let selectedNum = null;
+let lastCalledNum = null;
+let totalCalls = 0;
+let selectTimer = null;
+let viewMode = "SEMI";
+let cpuLevel = "EASY";
 
-function checkBingo(type){
 
 const lines = [
-
 [0,1,2,3,4],
 [5,6,7,8,9],
 [10,11,12,13,14],
 [15,16,17,18,19],
 [20,21,22,23,24],
-
 [0,5,10,15,20],
 [1,6,11,16,21],
 [2,7,12,17,22],
 [3,8,13,18,23],
 [4,9,14,19,24],
-
 [0,6,12,18,24],
 [4,8,12,16,20]
-
 ];
 
-let completedLines = 0;
+function init(){
 
-for(const line of lines){
+p = sh(nums).map(n=>({n,m:0}));
+c = sh(nums).map(n=>({n,m:0}));
 
-let bingo = true;
+playerTurn = true;
+gameOver = false;
 
-for(const index of line){
+selectedNum = null;
+lastCalledNum = null;
+totalCalls = 0;
 
-if(states[index] !== type){
-
-bingo = false;
-break;
-
-}
-
-}
-
-if(bingo){
-
-completedLines++;
+draw();
+updateButtons();
 
 }
 
+function draw(){
+
+player.innerHTML = '';
+cpu.innerHTML = '';
+
+p.forEach(x=>{
+
+let d = document.createElement('div');
+
+d.className='cell';
+
+if(x.m==1)d.classList.add('blue');
+if(x.m==2)d.classList.add('red');
+
+if(x.n===selectedNum){
+d.classList.remove('blue','red');
+d.classList.add('lightBlue');
 }
 
-return completedLines;
-
-}
-async function confirmCell(index){
-
-states[index] = 4;
-updateCell(index);
-
-if(lastCalledCell){
-    lastCalledCell.style.border =
-    "2px solid #444";
+if(x.n===lastCalledNum){
+d.style.border='4px solid yellow';
 }
 
-cells[index].style.border =
-"5px solid yellow";
+d.textContent=x.n;
 
-lastCalledCell = cells[index];
+d.onclick=()=>move(x.n);
 
-const number =
-parseInt(cells[index].innerText);
+player.appendChild(d);
 
-
-  await updateDoc(roomRef,{
-    lastCall:number,
-    lastCaller:isHost ? "HOST" : "GUEST",
-    currentTurn:isHost ? "GUEST" : "HOST"
 });
 
-if(isHost){
+c.forEach(x=>{
 
-    await updateDoc(roomRef,{
-        hostFirstCallDone:true
-    });
+let d=document.createElement('div');
 
-}else{
+d.className='cell';
 
-    await updateDoc(roomRef,{
-        guestFirstCallDone:true
-    });
+if(viewMode==="OPEN"){
+
+    if(x.m==1)d.classList.add('blue');
+    if(x.m==2)d.classList.add('red');
+
+    if(x.n===lastCalledNum){
+        d.style.border='4px solid yellow';
+    }
+
+    d.textContent=x.n;
+}
+
+else if(viewMode==="SEMI"){
+
+    if(x.m==1)d.classList.add('blue');
+    if(x.m==2)d.classList.add('red');
+
+    if(x.n===lastCalledNum){
+        d.style.border='4px solid yellow';
+    }
+
+    d.textContent = x.m ? '■' : '□';
+}
+
+else if(viewMode==="BLIND"){
+
+    d.textContent='？';
 
 }
-/*
-const myLines = checkBingo(4);
 
-console.log(
-"myLines=",
-myLines
-);
+cpu.appendChild(d);
 
-if(myLines > 0){
-
-const result =
-document.getElementById(
-"resultMessage"
-);
-
-result.innerText =
-"YOU WIN";
-
-result.style.color =
-"#00ff66";
-
-
-await updateDoc(roomRef,{
-    winner:isHost ? "HOST" : "GUEST"
 });
 
 }
-*/
-const snap = await getDoc(roomRef);
 
-console.log(
-    "保存確認 currentTurn=",
-    snap.data().currentTurn
+function bingo(board,mark){
+
+return lines.some(line=>
+line.every(i=>board[i].m==mark)
 );
-    console.log(
-        "lastCall送信 =",
-        number
-    );
-
-    pendingIndex = null;
 
 }
 
-async function resetBoard(){
+function lose(){
+gameOver=true;
+result.textContent='YOU LOSE';
+}
 
-if(!gameEnded){
-    alert("勝敗決定後のみリセット可能");
+function drawGame(){
+
+gameOver = true;
+result.textContent = 'DRAW';
+
+}
+
+function restart(){
+result.textContent='';
+init();
+}
+
+function checkDraw(){
+
+if(totalCalls >= 24){
+
+drawGame();
+return true;
+
+}
+
+return false;
+
+}
+
+function move(n){
+
+if(!playerTurn || gameOver) return;
+
+const cell = p.find(x=>x.n==n);
+
+if(cell.m !== 0) return;
+
+if(selectedNum === n){
+
+selectedNum = null;
+lastCalledNum = null;
+
+if(selectTimer){
+clearTimeout(selectTimer);
+selectTimer = null;
+}
+
+draw();
+return;
+
+}
+
+if(selectTimer){
+clearTimeout(selectTimer);
+selectTimer = null;
+}
+
+selectedNum = n;
+
+
+draw();
+
+selectTimer = setTimeout(()=>{
+
+p.forEach(x=>{
+if(x.n==n)x.m=1;
+});
+
+c.forEach(x=>{
+if(x.n==n)x.m=2;
+});
+
+totalCalls++;
+
+lastCalledNum = n;
+
+selectedNum = null;
+selectTimer = null;
+
+draw();
+
+playerTurn=false;
+
+if(bingo(c,2)){
+lose();
+return;
+}
+
+if(checkDraw()){
+return;
+}
+
+setTimeout(cpuMove,2500);
+
+},2000);
+
+}
+
+function cpuMove(){
+
+let n;
+
+if(cpuLevel==="HARD"){
+    n = cpuHardMove();
+}
+else if(cpuLevel==="NORMAL"){
+    n = cpuNormalMove();
+}
+else{
+    n = cpuEasyMove();
+}
+
+if(n==null)return;
+
+lastCalledNum=n;
+
+c.forEach(x=>{
+    if(x.n==n)x.m=1;
+});
+
+p.forEach(x=>{
+    if(x.n==n)x.m=2;
+});
+
+totalCalls++;
+draw();
+
+if(bingo(p,2)){
+    win();
     return;
 }
-/*
-createBoard();
 
-lastCalledCell = null;
-pendingIndex = null;
+if(checkDraw()){
+    return;
+}
 
-document.getElementById("yesBtn").innerText = "〇 YES";
-document.getElementById("yesBtn").disabled = false;
+playerTurn=true;
+}
 
-rematchAnnounced = false;
+function win(){
+gameOver=true;
+result.textContent='YOU WIN';
+}
 
-console.log(
-"rematchAnnounced reset"
-);
 
-document.getElementById(
-"rematchBox"
-).style.display = "none";
+function changeMode(mode){
 
-document.getElementById(
-"resetStatus"
-).style.display = "none";
+if(totalCalls > 0){
+    return;
+}
 
-document.getElementById(
-"resetBtn"
-).style.display = "none";
-
-document.getElementById(
-"resultMessage"
-).innerText = "";
-
-gameEnded = false;
-
-*/
-
-if(isHost){
-
-    await updateDoc(roomRef,{
-        hostReset:true
-    });
-
-}else{
-
-    await updateDoc(roomRef,{
-        guestReset:true
-    });
+viewMode = mode;
+updateButtons();
+restart();
 
 }
 
-}
-
-function createBoard(){
-
-const board =
-document.getElementById("board");
-
-board.innerHTML = "";
-
-cells = [];
-states = [];
-
-let numbers = [];
-
-for(let i=1;i<=25;i++){
-    numbers.push(i);
-}
-
-for(let i=numbers.length-1;i>0;i--){
-
-    const j =
-    Math.floor(Math.random()*(i+1));
-
-    [numbers[i],numbers[j]] =
-    [numbers[j],numbers[i]];
-}
-
-for(let i=0;i<25;i++){
-
-    const cell =
-    document.createElement("div");
-
-    cell.className = "cell";
-
-    cell.innerText =
-    numbers[i];
-
-    cells.push(cell);
-
-    states.push(0);
-
-   cell.onclick = function(){
-     handleTap(i);
-};
-
-board.appendChild(cell);
-
-}
-
-}
-
-async function handleTap(index){
-
-    console.log(
-        "現在表示=",
-        document.getElementById("turnLabelGame").innerText
-    );
-
-    if(
-        document.getElementById("turnLabelGame").innerText
-        !== "あなたのターン"
-    ){
-        console.log("ターン外なので停止");
+function changeLevel(level){
+    if(totalCalls > 0){
         return;
     }
 
-    const number =
-    parseInt(cells[index].innerText);
+    cpuLevel = level;
 
-    console.log("CALL =",number);
+    
 
-    if(pendingIndex !== null){
+    updateButtons();
+}
 
-        clearTimeout(pendingTimer);
+function updateButtons(){
 
-        if(pendingIndex !== index){
+    const levels = ["easy","normal","hard"];
 
-            states[pendingIndex] = 0;
-            updateCell(pendingIndex);
+    levels.forEach(level=>{
+        document.getElementById(level+"Btn")
+            .classList.remove("selected");
+
+        document.getElementById(level+"Btn")
+            .classList.add("notSelected");
+    });
+
+    document.getElementById(cpuLevel.toLowerCase()+"Btn")
+        .classList.remove("notSelected");
+
+    document.getElementById(cpuLevel.toLowerCase()+"Btn")
+        .classList.add("selected");
+
+
+    const modes = ["open","semi","blind"];
+
+    modes.forEach(mode=>{
+        document.getElementById(mode+"Btn")
+            .classList.remove("selected");
+
+        document.getElementById(mode+"Btn")
+            .classList.add("notSelected");
+    });
+
+    document.getElementById(viewMode.toLowerCase()+"Btn")
+        .classList.remove("notSelected");
+
+    document.getElementById(viewMode.toLowerCase()+"Btn")
+        .classList.add("selected");
+}
+
+
+function getAvailableNumbers(){
+    return p
+        .filter(x => x.m===0)
+        .map(x => x.n);
+}
+
+function cpuEasyMove(){
+    const av = getAvailableNumbers();
+
+    if(!av.length)return null;
+
+    return av[Math.floor(Math.random()*av.length)];
+}
+
+function cloneBoard(board){
+
+    return board.map(x=>({
+        n:x.n,
+        m:x.m
+    }));
+
+}
+
+function countRedThreat(board){
+
+    let score = 0;
+
+    lines.forEach(line=>{
+
+        const red =
+        line.filter(i=>board[i].m===2).length;
+
+        const empty =
+        line.filter(i=>board[i].m===0).length;
+
+        if(red===4 && empty===1){
+
+            score -= 5000;
 
         }
-    }
+        else if(red===3 && empty===2){
 
-if(states[index] === 0){
+            score -= 500;
 
-states[index] = 2;
-updateCell(index);
+        }
+        else if(red===2 && empty===3){
 
-pendingIndex = index;
+            score -= 50;
 
-pendingTimer = setTimeout(()=>{
-    confirmCell(index);
-},2000);
+        }
 
-}else if(states[index] === 2){
-
-states[index] = 0;
-updateCell(index);
-
-pendingIndex = null;
-
-}
-
-}
-
-function showHelp(type){
-
-document.getElementById("overlay").style.display="block";
-document.getElementById("helpPopup").style.display="block";
-
-if(type==="quick"){
-
-document.getElementById("helpTitle").innerText=
-"QUICK MATCH";
-
-document.getElementById("helpText").innerText=
-"公開ルームに参加するモードです。ルーム番号をタップして参加できます。";
-
-}
-else if(type==="private"){
-
-document.getElementById("helpTitle").innerText=
-"PRIVATE MATCH";
-
-document.getElementById("helpText").innerText=
-"ルーム番号を共有した相手と対戦できます。";
-
-}
-else if(type==="rule"){
-
-document.getElementById("helpTitle").innerText=
-"RULE";
-
-document.getElementById("helpText").innerText=
-"赤（相手のコール）でBINGOを作れば勝利。\n\nただし赤は自分では作れない。\n\n相手の次の一手を予想し、\n赤ラインを壊さないように\n不要な数字をコールしよう。";
-
-}
-
-}
-
-function closeHelp(){
-
-document.getElementById("overlay").style.display="none";
-document.getElementById("helpPopup").style.display="none";
-
-}
-
-document.getElementById(
-"yesBtn"
-).onclick = async function(){
-
-console.log(
-"YES CLICK",
-new Date().getTime()
-);
-
-console.log("YES押下");
-
-this.innerText = "✓ YES";
-this.disabled = true;
-
-if(isHost){
-
-    console.log("HOST送信開始");
-
-    await updateDoc(roomRef,{
-        hostRematch:true
     });
 
-    console.log("HOST送信成功");
-
-}else{
-
-    console.log("GUEST送信開始");
-
-    await updateDoc(roomRef,{
-        guestRematch:true
-    });
-
-    console.log("GUEST送信成功");
+    return score;
 
 }
 
-};
+function wouldPlayerWin(num){
 
-document.getElementById(
-"noBtn"
-).onclick = async function(){
+    const temp =
+    cloneBoard(p);
 
-    if(isHost){
+    temp.forEach(x=>{
 
-        await updateDoc(roomRef,{
-            hostNo:true
-        });
+        if(x.n===num){
 
-    }else{
+            x.m = 2;
 
-        await updateDoc(roomRef,{
-            guestNo:true
-        });
+        }
+
+    });
+
+    return bingo(temp,2);
+
+}
+
+function evaluateMove(num){
+
+    const temp =
+    cloneBoard(p);
+
+    temp.forEach(x=>{
+
+        if(x.n===num){
+
+            x.m = 2;
+
+        }
+
+    });
+
+    if(bingo(temp,2)){
+
+        return -999999;
 
     }
 
-};
+    return countRedThreat(temp);
 
+}
+
+function cpuNormalMove(){
+
+    const av =
+    getAvailableNumbers();
+
+    if(!av.length)return null;
+
+    let bestNum = null;
+    let bestScore = -999999;
+
+    av.forEach(num=>{
+
+        let score =
+        evaluateMove(num);
+
+        score +=
+        Math.floor(Math.random()*300);
+
+        if(score > bestScore){
+
+            bestScore = score;
+            bestNum = num;
+
+        }
+
+    });
+
+    return bestNum;
+
+}
+
+function cpuHardMove(){
+
+    const av =
+    getAvailableNumbers();
+
+    if(!av.length)return null;
+
+    let bestMove = null;
+    let bestScore = -999999;
+
+    av.forEach(cpuNum=>{
+
+        if(wouldPlayerWin(cpuNum)){
+            return;
+        }
+
+        const temp =
+        cloneBoard(p);
+
+        temp.forEach(x=>{
+
+            if(x.n===cpuNum){
+
+                x.m = 2;
+
+            }
+
+        });
+
+        let worstReply = 999999;
+
+        av.forEach(reply=>{
+
+            if(reply===cpuNum)return;
+
+            const temp2 =
+            cloneBoard(temp);
+
+            temp2.forEach(x=>{
+
+                if(x.n===reply){
+
+                    x.m = 1;
+
+                }
+
+            });
+
+            const score =
+            countRedThreat(temp2);
+
+            worstReply =
+            Math.min(
+                worstReply,
+                score
+            );
+
+        });
+
+        if(worstReply > bestScore){
+
+            bestScore =
+            worstReply;
+
+            bestMove =
+            cpuNum;
+
+        }
+
+    });
+
+    if(bestMove!==null){
+
+        return bestMove;
+
+    }
+
+    return av[
+        Math.floor(
+            Math.random()*av.length
+        )
+    ];
+
+}
+
+
+function showModeHelp(){
+
+    document.getElementById("modeHelpPopup")
+        .style.display = "flex";
+
+}
+
+function closeModeHelp(){
+
+    document.getElementById("modeHelpPopup")
+        .style.display = "none";
+
+}
+
+init();
 
 </script>
 
