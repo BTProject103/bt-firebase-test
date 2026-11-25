@@ -392,6 +392,7 @@ function sh(a){
 
 let p,c;
 
+let hardVisibleIndexes = [];
 let selectedNum = null;
 let lastCalledNum = null;
 let totalCalls = 0;
@@ -427,7 +428,13 @@ selectedNum = null;
 lastCalledNum = null;
 totalCalls = 0;
 
+
+hardVisibleIndexes =
+sh([...Array(25)].map((_,i)=>i))
+.slice(0,5);
+
 draw();
+
 updateButtons();
 
 }
@@ -743,200 +750,151 @@ function cloneBoard(board){
 
 }
 
-function countRedThreat(board){
+function getCellValue(board,index){
 
-    let score = 0;
+let score = 0;
 
-    lines.forEach(line=>{
+lines.forEach(line=>{
 
-        const red =
-        line.filter(i=>board[i].m===2).length;
+if(!line.includes(index)) return;
 
-        const empty =
-        line.filter(i=>board[i].m===0).length;
+const red =
+line.filter(i=>board[i].m===2).length;
 
-        if(red===4 && empty===1){
+const blue =
+line.filter(i=>board[i].m===1).length;
 
-            score -= 5000;
+if(blue > 0) return;
 
-        }
-        else if(red===3 && empty===2){
+score += 10;
+score += red * 25;
 
-            score -= 500;
+});
 
-        }
-        else if(red===2 && empty===3){
-
-            score -= 50;
-
-        }
-
-    });
-
-    return score;
-
-}
-
-function wouldPlayerWin(num){
-
-    const temp =
-    cloneBoard(p);
-
-    temp.forEach(x=>{
-
-        if(x.n===num){
-
-            x.m = 2;
-
-        }
-
-    });
-
-    return bingo(temp,2);
-
-}
-
-function evaluateMove(num){
-
-    const temp =
-    cloneBoard(p);
-
-    temp.forEach(x=>{
-
-        if(x.n===num){
-
-            x.m = 2;
-
-        }
-
-    });
-
-    if(bingo(temp,2)){
-
-        return -999999;
-
-    }
-
-    return countRedThreat(temp);
+return score;
 
 }
 
 function cpuNormalMove(){
 
-    const av =
-    getAvailableNumbers();
+const av = getAvailableNumbers();
 
-    if(!av.length)return null;
+if(!av.length) return null;
 
-    let bestNum = null;
-    let bestScore = -999999;
+let bestNum = null;
+let bestScore = -999999;
 
-    av.forEach(num=>{
+av.forEach(num=>{
 
-        let score =
-        evaluateMove(num);
+const index =
+c.findIndex(x=>x.n===num);
 
-        score +=
-        Math.floor(Math.random()*300);
+let selfValue =
+getCellValue(c,index);
 
-        if(score > bestScore){
+let score = -selfValue;
 
-            bestScore = score;
-            bestNum = num;
+score +=
+Math.floor(Math.random()*20);
 
-        }
+if(score > bestScore){
 
-    });
+bestScore = score;
+bestNum = num;
 
-    return bestNum;
+}
+
+});
+
+return bestNum;
+
+}
+
+function getVisiblePlayerCells(){
+
+const visible = [];
+
+hardVisibleIndexes.forEach(index=>{
+
+visible.push({
+num:p[index].n,
+index:index
+});
+
+});
+
+return visible;
 
 }
 
 function cpuHardMove(){
 
-    const av =
-    getAvailableNumbers();
+const av = getAvailableNumbers();
 
-    if(!av.length)return null;
+if(!av.length) return null;
 
-    let bestMove = null;
-    let bestScore = -999999;
+let bestNum = null;
+let bestScore = -999999;
 
-    av.forEach(cpuNum=>{
+av.forEach(num=>{
 
-        if(wouldPlayerWin(cpuNum)){
-            return;
-        }
+const cpuIndex =
+c.findIndex(
+x=>x.n===num
+);
 
-        const temp =
-        cloneBoard(p);
+let selfValue =
+getCellValue(c,cpuIndex);
 
-        temp.forEach(x=>{
+let blockValue = 0;
 
-            if(x.n===cpuNum){
+const visible =
+getVisiblePlayerCells();
 
-                x.m = 2;
+visible.forEach(v=>{
 
+    if(num === v.num){
+        blockValue += 100;
+    }
+
+    lines.forEach(line=>{
+
+        if(line.includes(v.index)){
+
+            const reds =
+            line.filter(
+                i=>p[i].m===2
+            ).length;
+
+            if(reds >= 2){
+                blockValue += 20;
             }
 
-        });
-
-        let worstReply = 999999;
-
-        av.forEach(reply=>{
-
-            if(reply===cpuNum)return;
-
-            const temp2 =
-            cloneBoard(temp);
-
-            temp2.forEach(x=>{
-
-                if(x.n===reply){
-
-                    x.m = 1;
-
-                }
-
-            });
-
-            const score =
-            countRedThreat(temp2);
-
-            worstReply =
-            Math.min(
-                worstReply,
-                score
-            );
-
-        });
-
-        if(worstReply > bestScore){
-
-            bestScore =
-            worstReply;
-
-            bestMove =
-            cpuNum;
+            if(reds >= 3){
+                blockValue += 50;
+            }
 
         }
 
     });
 
-    if(bestMove!==null){
+});
+const score =
+(-selfValue) +
+blockValue;
 
-        return bestMove;
+if(score > bestScore){
 
-    }
-
-    return av[
-        Math.floor(
-            Math.random()*av.length
-        )
-    ];
+bestScore = score;
+bestNum = num;
 
 }
 
+});
+
+return bestNum;
+
+}
 
 function showModeHelp(){
 
@@ -953,6 +911,8 @@ function closeModeHelp(){
 }
 
 init();
+
+
 
 </script>
 
