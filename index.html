@@ -234,6 +234,8 @@ font-weight:bold;
 
 <h1>BINGO TACTICS</h1>
 
+<h4>CPU LEVEL</h4>
+
 <div class="cpuLevelTop">
 
 <button id="easyBtn"
@@ -258,36 +260,55 @@ HARD
 
 <h4>CPU BOARD</h4>
 
+
 <div class="cpuArea">
 
     <div id="cpu" class="board cpu"></div>
 
    <div class="modeButtons">
 
-    <button id="openBtn"
-    class="openBtn notSelected"
-    onclick="changeMode('OPEN')">
-    OPEN
-    </button>
+<div style="
+display:flex;
+align-items:center;
+justify-content:center;
+gap:6px;
+margin-bottom:5px;
+font-weight:bold;
+">
+CPU VISION
 
-    <button id="semiBtn"
-    class="semiBtn selected"
-    onclick="changeMode('SEMI')">
-    SEMI
-    </button>
-
-    <button id="blindBtn"
-    class="blindBtn notSelected"
-    onclick="changeMode('BLIND')">
-    BLIND
-    </button>
-
-   <button class="helpBtn"
+<button class="helpBtn"
+style="
+margin:0;
+width:32px!important;
+height:32px!important;
+font-size:18px;
+"
 onclick="showModeHelp()">
 ?
 </button>
 
-  </div>
+</div>
+
+<button id="openBtn"
+class="openBtn notSelected"
+onclick="changeMode('OPEN')">
+OPEN
+</button>
+
+<button id="semiBtn"
+class="semiBtn selected"
+onclick="changeMode('SEMI')">
+SEMI
+</button>
+
+<button id="blindBtn"
+class="blindBtn notSelected"
+onclick="changeMode('BLIND')">
+BLIND
+</button>
+
+</div>
 
 </div>
 
@@ -310,7 +331,11 @@ onclick="showModeHelp()">
 CPUボードの数字と状況を表示します。<br>
 <br>
 ルールの理解や戦術練習に適した
-初心者向けモードです。
+初心者向けモードです。<br>
+<br>
+HARDレベルではCPUの思考傾向を
+観察できるため、対CPU戦術の研究にも
+活用できます。
 </p>
 
 <p>
